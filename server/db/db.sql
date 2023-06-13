@@ -8,8 +8,7 @@ CREATE TABLE reviews (
         and rating <= 5
     )
 );
-select *
-from restaurants
+select * from restaurants
     left join(
         select restaurant_id,
             count(*),

@@ -4,16 +4,18 @@ import { RestaurantsContext } from "../context/RestaurantsContext";
 import { useNavigate } from "react-router-dom";
 import StarRating from "./StarRating";
 
-const RestaurantList = (props) => {
+const RestaurantList = () => {
   const { restaurants, setRestaurants } = useContext(RestaurantsContext);
-  let history = useNavigate();
+  const history = useNavigate();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await RestaurantFinder.get("/");
-        console.log(response.data.data);
         setRestaurants(response.data.data.restaurants);
-      } catch (err) {}
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     fetchData();
@@ -22,12 +24,8 @@ const RestaurantList = (props) => {
   const handleDelete = async (e, id) => {
     e.stopPropagation();
     try {
-      const response = await RestaurantFinder.delete(`/${id}`);
-      setRestaurants(
-        restaurants.filter((restaurant) => {
-          return restaurant.id !== id;
-        })
-      );
+      await RestaurantFinder.delete(`/${id}`);
+      setRestaurants(restaurants.filter((restaurant) => restaurant.id !== id));
     } catch (err) {
       console.log(err);
     }
@@ -68,61 +66,39 @@ const RestaurantList = (props) => {
           </tr>
         </thead>
         <tbody>
-          {restaurants &&
-            restaurants.map((restaurant) => {
-              return (
-                <tr
-                  onClick={() => handleRestaurantSelect(restaurant.id)}
-                  key={restaurant.id}
-                >
-                  <td>{restaurant.name}</td>
-                  <td>{restaurant.location}</td>
-                  <td>{"$".repeat(restaurant.price_range)}</td>
-                  <td>{renderRating(restaurant)}</td>
-                  <td>
-                    <button
-                      onClick={(e) => handleUpdate(e, restaurant.id)}
-                      className="btn btn-warning"
-                    >
-                      Update
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      onClick={(e) => handleDelete(e, restaurant.id)}
-                      className="btn btn-danger"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          {/* <tr>
-            <td>mcdonalds</td>
-            <td>New YOrk</td>
-            <td>$$</td>
-            <td>Rating</td>
-            <td>
-              <button className="btn btn-warning">Update</button>
-            </td>
-            <td>
-              <button className="btn btn-danger">Delete</button>
-            </td>
-          </tr>
-
-          <tr>
-            <td>mcdonalds</td>
-            <td>New YOrk</td>
-            <td>$$</td>
-            <td>Rating</td>
-            <td>
-              <button className="btn btn-warning">Update</button>
-            </td>
-            <td>
-              <button className="btn btn-danger">Delete</button>
-            </td>
-          </tr> */}
+          {restaurants.length > 0 ? (
+            restaurants.map((restaurant) => (
+              <tr
+                onClick={() => handleRestaurantSelect(restaurant.id)}
+                key={restaurant.id}
+              >
+                <td>{restaurant.name}</td>
+                <td>{restaurant.location}</td>
+                <td>{"$".repeat(restaurant.price_range)}</td>
+                <td>{renderRating(restaurant)}</td>
+                <td>
+                  <button
+                    onClick={(e) => handleUpdate(e, restaurant.id)}
+                    className="btn btn-warning"
+                  >
+                    Update
+                  </button>
+                </td>
+                <td>
+                  <button
+                    onClick={(e) => handleDelete(e, restaurant.id)}
+                    className="btn btn-danger"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6">No restaurants found.</td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

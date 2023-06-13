@@ -1,7 +1,7 @@
-import React from 'react'
-import Header from '../../components/Header'
-import AddRestaurant from '../../components/AddRestaurant'
-import RestaurantList from '../../components/RestaurantList'
+import React from "react";
+import Header from "../components/Header";
+import AddRestaurant from "../components/AddRestaurant";
+import RestaurantList from "../components/RestaurantList";
 
 const Home = () => {
   return (
@@ -10,8 +10,7 @@ const Home = () => {
       <AddRestaurant />
       <RestaurantList />
     </div>
+  );
+};
 
-  )
-}
-
-export default Home
+export default Home;

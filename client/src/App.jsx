@@ -1,24 +1,31 @@
-import React from 'react'
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
-import UpdatePage from './routes/UpdatePage'
-import RestaurantDetail from './routes/RestaurantDetail'
-import Home from './routes/Home'
-import UpdatePage from './routes/UpdatePage'
-import RestaurantDetail from './routes/RestaurantDetail'
-
-
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Home from "./routes/Home";
+import UpdatePage from "./routes/UpdatePage";
+import RestaurantDetailPage from "./routes/RestaurantDetailPage";
+import { RestaurantsContextProvider } from "./context/RestaurantsContext";
 const App = () => {
-    return <div>
+  return (
+    <RestaurantsContextProvider>
+      <div className="container">
         <Router>
-            <Switch> 
-                <Route exact path ="/" component ={Home}/>
-                <Route exact path ="/restaurants/:id/update" component ={UpdatePage}/>
-                <Route exact path ="/restaurants/:id" component ={RestaurantDetail}/>
-            </Switch>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route
+              exact
+              path="/restaurants/:id/update"
+              component={UpdatePage}
+            />
+            <Route
+              exact
+              path="/restaurants/:id"
+              component={RestaurantDetailPage}
+            />
+          </Switch>
         </Router>
-        
-    </div>
-}
+      </div>
+    </RestaurantsContextProvider>
+  );
+};
 
- export default App
-
+export default App;

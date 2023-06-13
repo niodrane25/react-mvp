@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const UpdatePage = () => {
+const UpdatePage = () => {
   return (
     <div>UpdatePage</div>
   )
